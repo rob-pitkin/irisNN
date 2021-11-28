@@ -1,0 +1,121 @@
+###########################
+# Artificial Neural Network
+# Rob Pitkin
+# Comp 131
+# README
+###########################
+
+Run:
+     - run executable with
+            python3 ./ArtificialNeuralNetwork.py
+
+
+Program Purpose:
+        This program was designed to generate and train a neural network that
+        can be used to classify three species of flower based on four basic
+        measurements (Sepal Length, Sepal Width, Petal Length, Petal Width).
+        It first trains itself using a large portion of a normalized data set
+        and is checked by a separate validation data set until it reaches
+        an accuracy of at least 96%. It then runs every data set through and
+        generates the accuracy and confusion matrix of the network's outputs
+        for each data set.
+        
+        Once the network is trained to a high accuracy, it asks the user if
+        they want to input their own data of the form:
+                  Sepal-Length Sepal-Width Petal-Lenth Petal-Width
+        and outputs a predicted flower species based on the input.
+
+Acknowledgements: 
+        The algorithm was adapted from the lecture slides and the actual 
+        implementation was inspired by ANN's I have made in the past
+        using various programming books. Professor Santini was a huge help
+        throughout this project and advised me on my numerous questions.
+
+Files:
+        # ArtificialNeuralNetwork.py:
+              Main program file, contains implementation and all defined classes
+        
+        # MasterList.txt:
+              Can be an empty text file, but once the program has been run
+              once, contains the entire original data set normalized using
+              the variance normalization method (from slides).
+        
+        # trainingData.txt:
+              Training data set. Arbitrarily took the first 25 examples from
+              each class in the MasterList.txt file.
+        
+        # validationData.txt:
+              Validation data set. Arbitrarily took 13 examples from each class
+              in the MasterList.txt file.
+        
+        # testData.txt:
+              Testing data set. Took any remaining data examples from each
+              class in the MasterList.txt file.
+        
+        # ANN - Iris data.txt:
+              Provided data file. Not normalized or altered. Just required
+              for the program to run.
+
+Notes:
+        I chose to use matrices and numerous dot products for my Back 
+        Propagation algorithm implementation instead of following the textbook's
+        algorithm since it ended up being much easier to convert to code. 
+        However, I will say I initially attempted to implement the textbook's 
+        pseudocode and it gave me a much deeper understanding of the algorithm 
+        itself, as opposed to the short 10 lines of code I ended up using. 
+        This is mainly due to the fact that it's hard to picture dot products 
+        between matrices and actually interpret what they represent.
+        
+        The most important user note with my implementation is that the network
+        often encounters a local min in the validation data set around 94%
+        accuracy. As a result, it can occasionally take up to a couple minutes
+        to finish training. If it's taking a long time, I found the best
+        solution to just stop the program and run it again. It's similar to
+        the generic algorithm to the extent that there's no guaranteed runtime,
+        only a guaranteed (optimal) performance. I suspect this issue simply
+        arises from the size of the validation data set itself. Since there
+        are only 39 examples in the data set, the network HAS to guess 38
+        correctly to achieve 97% accuracy. Had there been more examples for each
+        data set, the 97% accuracy mark would be easier (and faster) to achieve 
+        (i.e. getting 97 out of 100 examples has a larger margin of error than 
+        38 out of 39).
+        
+        Confusion matrix notes:
+            The confusion matrices outputted by the program are of the form:
+            
+                                          Actual Output
+                      _______________________________________________
+            Predicted |           | Setosa | Versicolor | Virginica |
+            Output    _______________________________________________
+                      | Setosa    |        |            |           |
+                      _______________________________________________
+                      | Versicolor|        |            |           |
+                      _______________________________________________
+                      | Virginica |        |            |           |
+                      _______________________________________________
+            
+            And all values are reported as percentages, just like in the lecture
+            slides, each rounded to 2 decimals.
+                            
+        
+        As for inputting data, the user can input normal values for lengths and
+        widths (in cm) however the input must be of the form:
+                  Sepal-Length Sepal-Width Petal-Lenth Petal-Width
+        As in, 4 values with a space in between each value. I think handling 
+        user input was honestly one of the more frustrating parts of the project
+        since I had to jump through hoops to normalize a single data example 
+        using the variance method and it made the code a bit ugly at some parts 
+        in my opinion.
+        
+        The largest bug I ran into was that I was normalizing already 
+        created data sets individually instead of creating the data sets from
+        an already normalized master data set. To initially counter this, I made
+        my network have a massive hidden layer (150 nodes) and increased the
+        learning rate, just two strategies I found from researching online,
+        and finally got accuracy values > 90%. However, after emailing
+        Professor Santini about my project he quickly pointed out that bugs
+        must be present and that making a network that big can actually hide
+        bugs! (Which I thought was really interesting). Regardless, I realized
+        my mistake preparing the data and after adjusting my program to its
+        current state, I was able to revert to my original hidden layer size of
+        4 nodes with accuracy values of > 96%.
